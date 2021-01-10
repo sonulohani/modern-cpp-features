@@ -68,6 +68,9 @@ See the sections on: [rvalue references](#rvalue-references), [special member fu
 C++11 introduces a new reference termed the _rvalue reference_. An rvalue reference to `T`, which is a non-template type parameter (such as `int`, or a user-defined type), is created with the syntax `T&&`. Rvalue references only bind to rvalues.
 
 Type deduction with lvalues and rvalues:
+
+### Important
+
 ```c++
 int x = 0; // `x` is an lvalue of type `int`
 int& xl = x; // `xl` is an lvalue of type `int&`
@@ -87,6 +90,8 @@ f(std::move(xr2)) // calls f(int&& x)
 ```
 
 See also: [`std::move`](#stdmove), [`std::forward`](#stdforward), [`forwarding references`](#forwarding-references).
+
+### Important
 
 ### Forwarding references
 Also known (unofficially) as _universal references_. A forwarding reference is created with the syntax `T&&` where `T` is a template type parameter, or using `auto&&`. This enables _perfect forwarding_: the ability to pass arguments while maintaining their value category (e.g. lvalues stay as lvalues, temporaries are forwarded as rvalues).
@@ -131,6 +136,8 @@ f(std::move(z)); // T is int, deduces as f(int &&) => f(int&&)
 
 See also: [`std::move`](#stdmove), [`std::forward`](#stdforward), [`rvalue references`](#rvalue-references).
 
+### Important
+
 ### Variadic templates
 The `...` syntax creates a _parameter pack_ or expands one. A template _parameter pack_ is a template parameter that accepts zero or more template arguments (non-types, types, or templates). A template with at least one parameter pack is called a _variadic template_.
 ```c++
@@ -154,7 +161,7 @@ sum(1, 2, 3, 4, 5); // 15
 sum(1, 2, 3);       // 6               
 sum(1.5, 2.0, 3.7); // 7.2
 ```
-
+### Important
 ### Initializer lists
 A lightweight array-like container of elements created using a "braced list" syntax. For example, `{ 1, 2, 3 }` creates a sequences of integers, that has type `std::initializer_list<int>`. Useful as a replacement to passing a vector of objects to a function.
 ```c++
@@ -180,7 +187,7 @@ constexpr int x = 0;
 constexpr int y = 1;
 static_assert(x == y, "x != y");
 ```
-
+### Important
 ### auto
 `auto`-typed variables are deduced by the compiler according to the type of their initializer.
 ```c++
@@ -217,6 +224,7 @@ add(1.5, 1.5); // == 3.0
 ```
 The trailing return type in the above example is the _declared type_ (see section on [`decltype`](#decltype)) of the expression `x + y`. For example, if `x` is an integer and `y` is a double, `decltype(x + y)` is a double. Therefore, the above function will deduce the type depending on what type the expression `x + y` yields. Notice that the trailing return type has access to its parameters, and `this` when appropriate.
 
+### Important
 ### Lambda expressions
 A `lambda` is an unnamed function object capable of capturing variables in scope. It features: a _capture list_; an optional set of parameters with an optional trailing return type; and a body. Examples of capture lists:
 * `[]` - captures nothing.
@@ -248,6 +256,7 @@ auto f2 = [x] { x = 2; }; // ERROR: the lambda can only perform const-operations
 auto f3 = [x]() mutable { x = 2; }; // OK: the lambda can perform any operations on the captured value
 ```
 
+### Important
 ### decltype
 `decltype` is an operator which returns the _declared type_ of an expression passed to it. cv-qualifiers and references are maintained if they are part of the expression. Examples of `decltype`:
 ```c++
@@ -300,6 +309,7 @@ enum class Alert : bool { Red, Green };
 Color c = Color::Red;
 ```
 
+### Important
 ### Attributes
 Attributes provide a universal syntax over `__attribute__(...)`, `__declspec`, etc.
 ```c++
@@ -309,6 +319,7 @@ Attributes provide a universal syntax over `__attribute__(...)`, `__declspec`, e
 }
 ```
 
+### Important
 ### constexpr
 Constant expressions are expressions evaluated by the compiler at compile-time. Only non-complex computations can be carried out in a constant expression. Use the `constexpr` specifier to indicate the variable, function, etc. is a constant expression.
 ```c++
@@ -348,6 +359,7 @@ private:
 constexpr Complex I(0, 1);
 ```
 
+### Important
 ### Delegating constructors
 Constructors can now call other constructors in the same class using an initializer list.
 ```c++
@@ -361,6 +373,7 @@ Foo foo;
 foo.foo; // == 0
 ```
 
+### Important
 ### User-defined literals
 User-defined literals allow you to extend the language and add your own syntax. To create a literal, define a `T operator "" X(...) { ... }` function that returns a type `T`, with a name `X`. Note that the name of this function defines the name of the literal. Any literal names not starting with an underscore are reserved and won't be invoked. There are rules on what parameters a user-defined literal function should accept, according to what type the literal is called on.
 
@@ -504,6 +517,7 @@ a2 = std::move(a3); // move-assignment using std::move
 a1 = f(A{}); // move-assignment from rvalue temporary
 ```
 
+### Important
 ### Converting constructors
 Converting constructors will convert values of braced list syntax into constructor arguments.
 ```c++
@@ -544,6 +558,7 @@ A c = {0, 0}; // calls A::A(std::initializer_list<int>)
 A d {0, 0, 0}; // calls A::A(std::initializer_list<int>)
 ```
 
+### Important
 ### Explicit conversion functions
 Conversion functions can now be made explicit using the `explicit` specifier.
 ```c++
@@ -563,6 +578,8 @@ B b;
 if (b); // OK calls B::operator bool()
 bool bb = b; // error copy-initialization does not consider B::operator bool()
 ```
+
+### Important
 ### Inline namespaces
 All members of an inline namespace are treated as if they were part of its parent namespace, allowing specialization of functions and easing the process of versioning. This is a transitive property, if A contains B, which in turn contains C and both B and C are inline namespaces, C's members can be used as if they were on A.
 
@@ -635,6 +652,7 @@ std::move(foo).getBar(); // calls `Bar Foo::getBar() &&`
 std::move(foo2).getBar(); // calls `Bar Foo::getBar() const&&`
 ```
 
+### Important
 ### Trailing return types
 C++11 allows functions and lambdas an alternative syntax for specifying their return types.
 ```c++
@@ -709,6 +727,7 @@ std::unique_ptr<int> p3 = std::move(p1); // move `p1` into `p3`
                                          // now unsafe to dereference object held by `p1`
 ```
 
+### Important
 ### std::forward
 Returns the arguments passed to it while maintaining their value category and cv-qualifiers. Useful for generic code and factories. Used in conjunction with [`forwarding references`](#forwarding-references).
 
@@ -772,6 +791,7 @@ static_assert(std::is_same<int, int>::value);
 static_assert(std::is_same<std::conditional<true, int, double>::type, int>::value);
 ```
 
+### Important
 ### Smart pointers
 C++11 introduces new smart pointers: `std::unique_ptr`, `std::shared_ptr`, `std::weak_ptr`. `std::auto_ptr` now becomes deprecated and then eventually removed in C++17.
 
@@ -838,6 +858,7 @@ std::get<1>(playerProfile); // "Frans Nielsen"
 std::get<2>(playerProfile); // "NYI"
 ```
 
+### Important
 ### std::tie
 Creates a tuple of lvalue references. Useful for unpacking `std::pair` and `std::tuple` objects. Use `std::ignore` as a placeholder for ignored values. In C++17, structured bindings should be used instead.
 ```c++
@@ -881,6 +902,7 @@ foo(std::make_shared<T>(), function_that_throws(), std::make_shared<T>());
 
 See the section on [smart pointers](#smart-pointers) for more information on `std::unique_ptr` and `std::shared_ptr`.
 
+### Important
 ### std::ref
 `std::ref(val)` is used to create object of type `std::reference_wrapper` that holds reference of val. Used in cases when usual reference passing using `&` does not compile or `&` is dropped due to type deduction. `std::cref` is similar but created reference wrapper holds a const reference to val.
 
@@ -888,6 +910,8 @@ See the section on [smart pointers](#smart-pointers) for more information on `st
 // create a container to store reference of objects.
 auto val = 99;
 auto _ref = std::ref(val);
+cout << std::is_same<int, decltype(val)>::value; // true
+cout << std::is_same<int&, decltype(_ref.get())>::value; // true
 _ref++;
 auto _cref = std::cref(val);
 //_cref++; does not compile
@@ -921,6 +945,7 @@ auto handle = std::async(std::launch::async, foo);  // create an async task
 auto result = handle.get();  // wait for the result
 ```
 
+### Important
 ### std::begin/end
 `std::begin` and `std::end` free functions were added to return begin and end iterators of a container generically. These functions also work with raw arrays which do not have begin and end member functions.
 
