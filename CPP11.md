@@ -250,7 +250,7 @@ By default, value-captures cannot be modified inside the lambda because the comp
 int x = 1;
 
 auto f1 = [&x] { x = 2; }; // OK: x is a reference and modifies the original
-
+// Important
 auto f2 = [x] { x = 2; }; // ERROR: the lambda can only perform const-operations on the captured value
 // vs.
 auto f3 = [x]() mutable { x = 2; }; // OK: the lambda can perform any operations on the captured value

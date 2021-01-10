@@ -20,6 +20,7 @@ C++14 includes the following new library features:
 
 ## C++14 Language Features
 
+### Important
 ### Binary literals
 Binary literals provide a convenient way to represent a base-2 number.
 It is possible to separate digits with `'`.
@@ -28,6 +29,7 @@ It is possible to separate digits with `'`.
 0b1111'1111 // == 255
 ```
 
+### Important
 ### Generic lambda expressions
 C++14 now allows the `auto` type-specifier in the parameter list, enabling polymorphic lambdas.
 ```c++
@@ -36,12 +38,14 @@ int three = identity(3); // == 3
 std::string foo = identity("foo"); // == "foo"
 ```
 
+### Important
 ### Lambda capture initializers
-This allows creating lambda captures initialized with arbitrary expressions. The name given to the captured value does not need to be related to any variables in the enclosing scopes and introduces a new name inside the lambda body. The initializing expression is evaluated when the lambda is _created_ (not when it is _invoked_).
+This allows creating lambda captures initialized with arbitrary expressions. The name given to the captured value does not need to be related to any variables in the enclosing scopes and introduces a new name inside the lambda body. **The initializing expression is evaluated when the lambda is _created_ (not when it is _invoked_).**
 ```c++
 int factory(int i) { return i * 10; }
 auto f = [x = factory(2)] { return x; }; // returns 20
 
+// Important
 auto generator = [x = 0] () mutable {
   // this would not compile without 'mutable' as we are modifying x on each call
   return x++;
@@ -69,6 +73,7 @@ auto f = [&r = x, x = x * 10] {
 f(); // sets x to 2 and returns 12
 ```
 
+### Important
 ### Return type deduction
 Using an `auto` return type in C++14, the compiler will attempt to deduce the type for you. With lambdas, you can now deduce its return type using `auto`, which makes returning a deduced reference or rvalue reference possible.
 ```c++
@@ -89,6 +94,7 @@ int y = 123;
 int& z = g(y); // reference to `y`
 ```
 
+### Important
 ### decltype(auto)
 The `decltype(auto)` type-specifier also deduces a type like `auto` does. However, it deduces return types while keeping their references and cv-qualifiers, while `auto` will not.
 ```c++
@@ -124,6 +130,7 @@ static_assert(std::is_same<const int&, decltype(g(x))>::value == 1);
 
 See also: `decltype` (C++11).
 
+### Important
 ### Relaxing constraints on constexpr functions
 In C++11, `constexpr` function bodies could only contain a very limited set of syntaxes, including (but not limited to): `typedef`s, `using`s, and a single `return` statement. In C++14, the set of allowable syntaxes expands greatly to include the most common syntax such as `if` statements, multiple `return`s, loops, etc.
 ```c++
@@ -137,6 +144,7 @@ constexpr int factorial(int n) {
 factorial(5); // == 120
 ```
 
+### Important
 ### Variable templates
 C++14 allows variables to be templated:
 
@@ -147,6 +155,7 @@ template<class T>
 constexpr T e  = T(2.7182818284590452353);
 ```
 
+### Important
 ### [[deprecated]] attribute
 C++14 introduces the `[[deprecated]]` attribute to indicate that a unit (function, class, etc) is discouraged and likely yield compilation warnings. If a reason is provided, it will be included in the warnings.
 ```c++
